@@ -1,5 +1,7 @@
 # Learning Tanstack React Query
 
+## Asynchronous state management library. Managing asynchronous state(like coming from api, fetch or axios requests, dealing with state easy, handles caching, pre fetching etc.)
+
 ## Docs and Resources:
 
 - ### [React Query Docs](https://react-query.tanstack.com/)
@@ -23,3 +25,7 @@
 1. #### `cd api`
 2. #### `npm install`
 3. #### `npm start`
+
+#### Notes/Points(personal understanding):
+
+1. Query and Mutation: Simply, query is getting data from somewhere, mutation is changing some type of data
