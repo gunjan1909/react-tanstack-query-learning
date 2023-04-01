@@ -7,6 +7,11 @@
 
 ## In order to run this project you need to start both the client and the API:
 
+### Clone the repository:-
+
+1. #### `git clone https://github.com/gunjan1909/react-tanstack-query-learning.git`
+2. #### `cd react-tanstack-query-learning`
+
 ### Start Client:-
 
 1. #### `cd client`
