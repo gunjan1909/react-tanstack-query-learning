@@ -5,7 +5,6 @@ const POST = [
   { id: 2, title: "Post2" },
 ];
 
-//understanding how queryKey works
 function App() {
   const queryClient = useQueryClient();
   //console.log(POST.length);
@@ -15,14 +14,32 @@ function App() {
     queryFn: () => wait(1000).then(() => [...POST]),
   });
 
+  const newPostMutation = useMutation({
+    mutationFn: (title) => {
+      return wait(1000).then(() =>
+        POST.push({ id: crypto.randomUUID(), title })
+      );
+    },
+    onSuccess: () => {
+      // here we are invalidating the old posts query whenver on success we add a new post, so it will refetch the data
+      //in the dev tools of react query, once we press add new , u can see it refetches the entire posts again
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   if (postsQuery.isLoading) return <h1>Loading...</h1>;
   if (postsQuery.isError) return <pre>{JSON.stringify(postsQuery.error)}</pre>;
-
   return (
     <div>
       {postsQuery.data.map((post) => {
         return <div key={post.id}>{post.title}</div>;
       })}
+      <button
+        disabled={newPostMutation.isLoading}
+        onClick={() => newPostMutation.mutate("New Post")}
+      >
+        Add New
+      </button>
     </div>
   );
 }

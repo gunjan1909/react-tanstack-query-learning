@@ -28,4 +28,8 @@
 
 #### Notes/Points(personal understanding):
 
-1. Query and Mutation: Simply, query is getting data from somewhere, mutation is changing some type of data
+Query and Mutation: Simply, query is getting data from somewhere, mutation is changing some type of data
+
+#### Rename every file with App name to run particular stuff
+
+1. App1.jsx -> very basic example of useQuery, useMutation and update the key using queryClient ig.
