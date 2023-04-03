@@ -1,35 +1,55 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import Post from "./Post";
+import PostsList1 from "./PostsList1";
+import PostsList2 from "./PostsList2";
+import CreatePost from "./CreatePost";
+import { PostListPaginated } from "./PostListPaginated";
+import { PostListInfinite } from "./PostListInfinite";
+import { useQueryClient } from "@tanstack/react-query";
+import { getPost } from "./api/posts";
+export default function App() {
+  const queryClient = useQueryClient;
+  const [currentPage, setCurrentPage] = useState(<PostsList1 />);
 
-const POST = [
-  { id: 1, title: "Post1" },
-  { id: 2, title: "Post2" },
-];
+  //when we hover, it will prefetch/prepopulate the data in the cache
 
-//understanding how queryKey works
-function App() {
-  const queryClient = useQueryClient();
-  //console.log(POST.length);
-  const postsQuery = useQuery({
-    queryKey: ["posts"],
-    // queryFn: () => Promise.reject("error message"),
-    queryFn: () => wait(1000).then(() => [...POST]),
-  });
-
-  if (postsQuery.isLoading) return <h1>Loading...</h1>;
-  if (postsQuery.isError) return <pre>{JSON.stringify(postsQuery.error)}</pre>;
+  //didnt worked
+  function onHoverPostOneLink() {
+    queryClient.prefetchQuery({
+      queryKey: ["posts", 1],
+      queryFn: () => getPost(1),
+    });
+  }
 
   return (
     <div>
-      {postsQuery.data.map((post) => {
-        return <div key={post.id}>{post.title}</div>;
-      })}
+      <button onClick={() => setCurrentPage(<PostsList1 />)}>
+        Posts List 1
+      </button>
+      <button onClick={() => setCurrentPage(<PostsList2 />)}>
+        Posts List 2
+      </button>
+      <button
+        onMouseEnter={onHoverPostOneLink}
+        onClick={() => setCurrentPage(<Post id={1} />)}
+      >
+        First Post
+      </button>
+      <button
+        onClick={() =>
+          setCurrentPage(<CreatePost setCurrentPage={setCurrentPage} />)
+        }
+      >
+        New Post
+      </button>
+      <button onClick={() => setCurrentPage(<PostListPaginated />)}>
+        Post List Paginated
+      </button>
+      <button onClick={() => setCurrentPage(<PostListInfinite />)}>
+        Post List Infinite
+      </button>
+      <br />
+      {currentPage}
     </div>
   );
 }
-
-//function to slow down the loading instead of manually
-function wait(duration) {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-}
-
-export default App;

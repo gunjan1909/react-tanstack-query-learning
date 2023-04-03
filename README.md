@@ -30,6 +30,13 @@
 
 Query and Mutation: Simply, query is getting data from somewhere, mutation is changing some type of data
 
+Query key must be unique for particular query we making.
+When we pass data in querykey, make sure the defined function uses that data so that key and function are synced up so we can do invalidation and stuff.
+
+Queryfn returns a promise, and takes parameter also
+
+usequeries not covered, to run multiple queries at once
+
 #### Rename every file with App name to run particular stuff
 
 1. App1.jsx -> very basic example of useQuery, useMutation and update the key using queryClient ig.
